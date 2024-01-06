@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="header">My Art Gallery</h1>
+
+
+
+<div class="gallery">
+  <% if @arts.length == 0 %>
+    <div class="empty">
+
+      <div class="empty_frame frame shadow">
+        &nbsp;
+      </div>
+
+      <div>
+        <br/>
+        The gallery is empty!  <%= link_to  'Add a work', new_art_path %> to get started.
+      </div>
+    </div>
+  <% else %>
+    <% @arts.each do |art| %>
+      <div class="art">
+        <div class="frame_holder">
+          <%= image_tag(art.image_url, class:"frame shadow") %>
+        </div>
+        <div class="info_holder">
+          <div class="info shadow">
+            <div class="art_title"><%= art.title %></div>
+            <div><%= art.artist %></div>
+            <div><%= art.year %></div>
+            <%= link_to 'Delete', art, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        </div>
+      </div>    
+    <% end %> 
+  <% end %>
+</div>
+
+<% if @arts.length != 0 %>
+  <div>
+    <%= link_to  'Add to Your Collection', new_art_path %>
+  </div> 
+<% end %>
+
+
+<div>
+<br/>
+Hostname: <%= @hostname %>
+</div>
+
