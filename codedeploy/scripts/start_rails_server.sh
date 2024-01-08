@@ -25,7 +25,7 @@ bundle
 
 # need node and yarn
 echo "DEBUG: Precompiling assets"
-rails assets:precompile
+bundle exec rails assets:precompile
 
 echo "DEBUG: Performing database migration, if needed"
 bundle exec rake db:migrate
