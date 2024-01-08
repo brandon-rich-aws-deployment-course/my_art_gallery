@@ -21,7 +21,6 @@ echo "DEBUG: Generating a secret key base value"
 export SECRET_KEY_BASE=$(bundle exec rake secret)
 
 echo "DEBUG: Installing gem dependencies"
-bundle config build.nokogiri --use-system-libraries
 bundle
 
 # need node and yarn
