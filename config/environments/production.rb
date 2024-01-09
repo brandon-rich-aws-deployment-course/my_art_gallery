@@ -96,5 +96,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # For demo purposes only -- allows incoming traffic from any domain name.  Real apps can list the DNS values they expect here.
-  config.hosts.clear
+  config.hosts << IPAddr.new("0.0.0.0/0")
 end
