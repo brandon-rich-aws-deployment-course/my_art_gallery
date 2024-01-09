@@ -17,8 +17,8 @@ export RDS_PASSWORD=$(aws ssm get-parameters --region us-east-1 --names CodeDepl
 export RDS_USERNAME=$(aws ssm get-parameters --region us-east-1 --names CodeDeployPostgresUsername --with-decryption --query Parameters[0].Value)
 export RDS_HOSTNAME=$(aws ssm get-parameters --region us-east-1 --names CodeDeployPostgresEndpoint --with-decryption --query Parameters[0].Value)
 
-echo "DEBUG: Generating a secret key base value"
-export SECRET_KEY_BASE=$(bundle exec rake secret)
+echo "DEBUG: Providing RAILS_MASTER_KEY so SECRET_KEY_BASE will be defined" 
+export RAILS_MASTER_KEY=$(cat config/master.key)
 
 echo "DEBUG: Installing gem dependencies"
 bundle
