@@ -52,7 +52,7 @@ eb setenv RAILS_MASTER_KEY=$(cat config/master.key)
 If you have multiple EB environments, remember to include the name of your environment with `-e <environment_name>`.
 
 
-# Building Docker locally
+# Building and Running Locally with Docker
 
 Make sure you are running docker on your machine, then..
 
