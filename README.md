@@ -50,3 +50,21 @@ eb setenv RAILS_MASTER_KEY=$(cat config/master.key)
 ```
 
 If you have multiple EB environments, remember to include the name of your environment with `-e <environment_name>`.
+
+
+# Building Docker locally
+
+Make sure you are running docker on your machine, then..
+
+```
+docker build -t my-art-gallery .
+```
+
+When that is complete, run it with this:
+```
+docker run -p 3000:3000 -e RAILS_MASTER_KEY=$(cat config/master.key) my_art_gallery_copilot
+```
+
+and access it at http://localhost:3000.
+
+
