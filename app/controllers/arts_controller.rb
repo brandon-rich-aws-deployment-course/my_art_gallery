@@ -5,6 +5,7 @@ class ArtsController < ApplicationController
   def index
     @arts = Art.all
     @hostname = Socket.gethostname
+    @database_adapter = ActiveRecord::Base.connection.adapter_name
   end
 
   # GET /arts/1 or /arts/1.json
