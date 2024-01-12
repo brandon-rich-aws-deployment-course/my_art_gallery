@@ -57,7 +57,7 @@ If you have multiple EB environments, remember to include the name of your envir
 Make sure you are running docker on your machine, then..
 
 ```
-docker build -t my-art-gallery .
+docker build -t my_art_gallery .
 ```
 
 When that is complete, run it with this:
@@ -82,3 +82,21 @@ VARIABLE2=other_value
 docker run -p 3000:3000 --env-file .env my_art_gallery
 ```
 
+
+# Optional: Local Dev Environment with Docker
+
+**The following instructions are only for folks who want to run and modify the app locally!**
+
+The default Dockerfile copies the app into the image, so if you run it locally as described above, you can't change the code and see those changes reflected; you'd have to rebuild the image with each code change.
+
+If you want a local dev environment that runs through docker, that's what the `Dockerfile.localdev` file is for. 
+
+These commands will build a version that expects a local volume mount, which is done by the `-v` parameter of the `docker run` command below. 
+
+```
+chmod +x entrypoint.localdev.sh
+docker build -f Dockerfile.localdev -t my-rails-app-dev .
+docker run -v $(pwd):/rails -p 3000:3000 my-rails-app-dev
+```
+
+Then you can navigate to http://localhost:3000, see the running app, and make changes locally that will be reflected instantly.  If you need to restart the server or run db:migrate, just re-run `docker run`, but if you change the Gemfile, you'll need to fully re-build the image with the steps above.
