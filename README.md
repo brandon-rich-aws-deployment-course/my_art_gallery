@@ -62,9 +62,23 @@ docker build -t my-art-gallery .
 
 When that is complete, run it with this:
 ```
-docker run -p 3000:3000 -e RAILS_MASTER_KEY=$(cat config/master.key) my_art_gallery_copilot
+docker run -p 3000:3000 -e RAILS_MASTER_KEY=$(cat config/master.key) my_art_gallery
 ```
 
 and access it at http://localhost:3000.
 
+### `docker run` with ENV file
+
+When you need to pass more than one or two environment variables into `docker run`, it's probably easier to use an ENV file.  Create the file `.env` and populate it like this:
+
+```
+VARIABLE=value
+VARIABLE2=other_value
+```
+
+**DO NOT add `.env` to version control!** Then run docker like this:
+
+```
+docker run -p 3000:3000 --env-file .env my_art_gallery
+```
 
