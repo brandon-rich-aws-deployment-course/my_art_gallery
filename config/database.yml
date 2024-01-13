@@ -19,9 +19,9 @@ my_postgres_config: &my_postgres_config
   port: <%= ENV['RDS_PORT'] %>
 
 development:
-  #<<: *default
-  <<: *my_postgres_config
-  #database: db/development.sqlite3
+  <<: *default
+  #<<: *my_postgres_config
+  database: db/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -32,6 +32,6 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/prod.sqlite3
-  #<<: *my_postgres_config
+  #<<: *default
+  #database: db/prod.sqlite3
+  <<: *my_postgres_config
