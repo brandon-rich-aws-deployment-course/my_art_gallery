@@ -1,15 +1,28 @@
 # Creating your own credentials.env and RAILS_MASTER_KEY
 
 ## How the credentials file works
-Rails applications all you to keep essential secret values (such as "secret_key_base", database passwords, or API keys) in an encrypted file called `credentials.enc`.  Much like a personal password manager, this file can hold many secrets, but is unlocked by just one master password.  This allows you to store secrets -- and even commit them to version control -- safely, as long as you never commit the RAILS_MASTER_KEY.  
+Rails applications allow you to keep essential secret values (such as "secret_key_base", database passwords, or API keys) in an encrypted file called `credentials.enc`.  Much like a personal password manager, this file can hold many secrets, but is unlocked by just one master password.  This allows you to store secrets -- and even commit them to version control -- safely, as long as you never commit the RAILS_MASTER_KEY.  
 
 Then, deploying your app doesn't need to involve setting a lot of environment variables (ie `MY_DATABASE_PASSWORD`); you can just set  `RAILS_MASTER_KEY` and let the credentials file provide all the values inside.
 
 For this demo app, rather than share my master key, I'm going to walk you through recreating the credentials file locally.
 
-## Step 1: Delete Existing Credentials
 
-First, remove the existing credentials file:
+## Shortcut: generate new master key using docker
+If you don't have rails set up locally, you can use docker to briefly run a ruby/rails environment that can generate the credentials for you.  With these two steps, you'll run the provided `generate_credentials.sh` script inside docker and generate a fresh `credentials.yml.enc` file and `config/master.key` file.
+
+```
+docker build -f Dockerfile.localdev -t my_art_gallery_local .
+
+docker run -it -v $(pwd):/rails -p 3000:3000 my_art_gallery_local ./generate_credentials.sh
+
+```
+
+This will re-build the `credentials.yml.enc` file and create a new `config/master.key` file.
+
+## Alternate: Step 1: Delete Existing Credentials
+
+For those that want to understand the steps executed by that script, and who have rails set up locally... first, remove the existing credentials file:
 
 ```
 rm config/credentials.yml.enc
@@ -41,9 +54,9 @@ secret_key_base: <your_newly_generated_secret_key_base>
 
 Save and quit.  Commit credentials.enc to your git repo.  **DO NOT commit config/master.key**.
 
-## Step 6: Obtain (and push) your new master key 
+## Step 6: Obtain your new master key 
 
-You can view your new master key in plaintext in `config/master.key`.  If you are doing the Elastic Beanstalk tutorial, you can push it to your environment with this command:
+You can view your new master key in plaintext in `config/master.key`.  If you are doing the Elastic Beanstalk tutorial, you can push it as an ENV variable to your environment with this command:
 
 ```
 eb setenv RAILS_MASTER_KEY=$(cat config/master.key)
@@ -52,7 +65,7 @@ eb setenv RAILS_MASTER_KEY=$(cat config/master.key)
 If you have multiple EB environments, remember to include the name of your environment with `-e <environment_name>`.
 
 
-# Building and Running Locally with Docker
+# Building and Running the Production App Locally with Docker
 
 Make sure you are running docker on your machine, then..
 
@@ -65,7 +78,7 @@ When that is complete, run it with this:
 docker run -p 3000:3000 -e RAILS_MASTER_KEY=$(cat config/master.key) my_art_gallery
 ```
 
-and access it at http://localhost:3000.
+and access it at http://localhost:3000.  Note: running the app in production mode requires the postgres RDS database to have already been set up in AWS from previous chapters.
 
 ### `docker run` with ENV file
 
@@ -89,14 +102,17 @@ docker run -p 3000:3000 --env-file .env my_art_gallery
 
 The default Dockerfile copies the app into the image, so if you run it locally as described above, you can't change the code and see those changes reflected; you'd have to rebuild the image with each code change.
 
-If you want a local dev environment that runs through docker, that's what the `Dockerfile.localdev` file is for. 
+If you want a local dev environment that runs through docker, that's what the `Dockerfile.localdev` file is for.  This also runs the app in a development mode that doesn't use a full database, but instead uses a local SQLite file instead. Since that SQLite database is a file inside the docker image, this means that every fresh `docker run` of this image will start with an empty database.
 
-These commands will build a version that expects a local volume mount, which is done by the `-v` parameter of the `docker run` command below. 
+These commands will build a version that expects a local volume mount, which is done by the `-v` parameter of the `docker run` command below. It mounts the current working directory as the app root, so you can make changes and see them reflected in the running app.
 
 ```
 chmod +x entrypoint.localdev.sh
+
 docker build -f Dockerfile.localdev -t my-rails-app-dev .
-docker run -v $(pwd):/rails -p 3000:3000 my-rails-app-dev
+
+docker run -v $(pwd):/rails --env-file .env -p 3000:3000 my_art_gallery_local
 ```
 
-Then you can navigate to http://localhost:3000, see the running app, and make changes locally that will be reflected instantly.  If you need to restart the server or run db:migrate, just re-run `docker run`, but if you change the Gemfile, you'll need to fully re-build the image with the steps above.
+Then you can navigate to http://localhost:3000, see the running app, and make changes locally that will be reflected instantly.  If you need to restart the server or run db:migrate, just re-run the `docker run` command above, but if you change the Gemfile, you'll need to fully re-build the image with the steps above.
+
