@@ -1,4 +1,4 @@
-# Creating your own credentials.env and RAILS_MASTER_KEY
+# Creating your own credentials.env and RAILS_MASTER_KEY  
 
 ## How the credentials file works
 Rails applications allow you to keep essential secret values (such as "secret_key_base", database passwords, or API keys) in an encrypted file called `credentials.enc`.  Much like a personal password manager, this file can hold many secrets, but is unlocked by just one master password.  This allows you to store secrets -- and even commit them to version control -- safely, as long as you never commit the RAILS_MASTER_KEY.  
