@@ -1,3 +1,4 @@
+echo "make sure any changes you want are committed and pushed to github before deploying!"
 aws deploy create-deployment \
  --application-name art_gallery \
  --deployment-config-name CodeDeployDefault.OneAtATime \
