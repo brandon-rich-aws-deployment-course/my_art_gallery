@@ -19,7 +19,7 @@ export RDS_USERNAME=$(aws secretsmanager get-secret-value --secret-id CodeDeploy
 export RDS_HOSTNAME=$(aws secretsmanager get-secret-value --secret-id CodeDeployRDSSecrets --query 'SecretString' --output text | jq -r '.host')
 
 echo "DEBUG: Fetching RAILS_MASTER_KEY from Secrets Manager so SECRET_KEY_BASE will be defined" 
-export RDS_HOSTNAME=$(aws secretsmanager get-secret-value --secret-id CodeDeployRDSSecrets --query 'SecretString' --output text | jq -r '.rails_master_key')
+export RAILS_MASTER_KEY=$(aws secretsmanager get-secret-value --secret-id CodeDeployRDSSecrets --query 'SecretString' --output text | jq -r '.rails_master_key')
 
 echo "DEBUG: Installing gem dependencies"
 bundle
