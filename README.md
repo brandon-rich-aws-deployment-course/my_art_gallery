@@ -5,7 +5,7 @@ Rails applications allow you to keep essential secret values (such as "secret_ke
 
 Then, deploying your app doesn't need to involve setting a lot of environment variables (ie `MY_DATABASE_PASSWORD`); you can just set  `RAILS_MASTER_KEY` and let the credentials file provide all the values inside.
 
-For this demo app, rather than share my master key, I'm going to walk you through recreating the credentials file locally.
+For this demo app, I'm going to walk you through recreating the credentials file locally. However, if all else fails, the master key for the credentials file on `main` is `56867b5cfdd41512e3a072bb64e300a3`. Never never commit or push your master key for a real app with real secrets!
 
 
 ## Shortcut: generate new master key using docker
@@ -111,7 +111,7 @@ chmod +x entrypoint.localdev.sh
 
 docker build -f Dockerfile.localdev -t my-rails-app-dev .
 
-docker run -v $(pwd):/rails --env-file .env -p 3000:3000 my_art_gallery_local
+docker run -v $(pwd):/rails -p 3000:3000 my_art_gallery_local
 ```
 
 Then you can navigate to http://localhost:3000, see the running app, and make changes locally that will be reflected instantly.  If you need to restart the server or run db:migrate, just re-run the `docker run` command above, but if you change the Gemfile, you'll need to fully re-build the image with the steps above.
