@@ -1,0 +1,25 @@
+# rename as .env
+# DO NOT push this to source control
+# NEVER add RAILS_MASTER_KEY to source control; I am only doing it for demo purposes
+
+# To run the production app locally, create your RDS and make it publicly accessible;
+# add a security group making Postgres port 5432 open to either the world or your IP;
+# update this file with the appropriate values.  If you need these values
+# spelled out, create a Secrets Manager secret from this RDS.  You will still
+# need to have remembered the username and password.  RDS_DB_NAME will be called
+# dbInstanceIdentifier in Secrets Manager.
+
+# I recommended removing the security group and making your DB instance private
+# after verifying the dockerized app runs.
+
+# To run the production dockerized app from localhost, do this:
+# docker build -t my_art_gallery .
+# docker run -p 3000:3000 --env-file .env my_art_gallery
+# Access at http://localhost:3000
+
+RAILS_MASTER_KEY=56867b5cfdd41512e3a072bb64e300a3
+RDS_PORT=5432
+RDS_HOSTNAME=
+RDS_DB_NAME=
+RDS_USERNAME=
+RDS_PASSWORD=
