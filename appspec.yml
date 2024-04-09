@@ -3,8 +3,8 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: arn:aws:ecs:us-east-1:231544052460:task-definition/art-gallery-manual:2
+        TaskDefinition: arn:aws:ecs:us-east-1:140024634985:task-definition/art-gallery-manual-task-definition:1
         LoadBalancerInfo:
-          ContainerName: my_art_gallery_prod
+          ContainerName: art_gallery_rails
           ContainerPort: 3000
         PlatformVersion: "LATEST"
