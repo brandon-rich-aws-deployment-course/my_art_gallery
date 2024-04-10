@@ -1,10 +1,18 @@
 version: 0.0
-Resources:
-  - TargetService:
-      Type: AWS::ECS::Service
-      Properties:
-        TaskDefinition: arn:aws:ecs:us-east-1:140024634985:task-definition/art-gallery-manual-task-definition:1
-        LoadBalancerInfo:
-          ContainerName: art_gallery_rails
-          ContainerPort: 3000
-        PlatformVersion: "LATEST"
+os: linux
+files:
+  - source: codedeploy/config/ruby-codedeploy-demo-nginx.conf
+    destination: /etc/nginx/conf.d
+  - source: codedeploy/config/nginx.conf
+    destination: /etc/nginx
+hooks:
+  BeforeInstall:
+    - location: codedeploy/scripts/stop_rails_server.sh
+      runas: root 
+    - location: codedeploy/scripts/configure_nginx.sh
+    - location: codedeploy/scripts/install_dependencies.sh
+  AfterInstall:
+    - location: codedeploy/scripts/start_rails_server.sh
+      runas: root 
+    - location: codedeploy/scripts/start_nginx.sh
+      runas: root 
