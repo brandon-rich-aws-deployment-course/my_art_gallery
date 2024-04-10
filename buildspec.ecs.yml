@@ -33,6 +33,8 @@ phases:
     - echo Writing image definitions file... 
     #- printf '[{"ImageURI":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
     - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+    - cp appspec.ecs.yml appspec.yml
 artifacts:
   files:
     - imageDetail.json
+    - appspec.yml
