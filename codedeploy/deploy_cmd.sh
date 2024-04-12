@@ -1,6 +1,6 @@
 echo "make sure any changes you want are committed and pushed to github before deploying!"
 aws deploy create-deployment \
- --application-name art_gallery \
+ --application-name my_art_gallery \
  --deployment-config-name CodeDeployDefault.OneAtATime \
  --deployment-group-name art_gallery_deployment_group \
  --description "Demo Deployment" \
