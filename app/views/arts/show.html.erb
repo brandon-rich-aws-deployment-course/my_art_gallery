@@ -3,8 +3,8 @@
 <%= render @art %>
 
 <div>
-  <%= link_to "Edit this art", edit_art_path(@art) %> |
-  <%= link_to "Back to arts", arts_path %>
+  <%= link_to "Edit this piece", edit_art_path(@art) %> |
+  <%= link_to "Back to gallery", arts_path %>
 
-  <%= button_to "Destroy this art", @art, method: :delete %>
+  <%= button_to "Destroy this piece", @art, method: :delete %>
 </div>
